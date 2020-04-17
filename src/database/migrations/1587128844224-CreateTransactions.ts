@@ -33,7 +33,8 @@ export default class CreateTransactions1587128844224
           },
           {
             name: 'category_id',
-            type: 'integer',
+            type: 'uuid',
+            isNullable: true,
           },
           {
             name: 'created_at',

@@ -9,16 +9,13 @@ export default class CreateCategories1587128844003
         columns: [
           {
             name: 'id',
-            type: 'integer',
-            generationStrategy: 'increment',
+            type: 'uuid',
             isPrimary: true,
+            generationStrategy: 'uuid',
+            default: 'uuid_generate_v4()',
           },
           {
             name: 'title',
-            type: 'varchar',
-          },
-          {
-            name: 'type',
             type: 'varchar',
           },
           {
