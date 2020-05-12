@@ -1,5 +1,3 @@
-// import AppError from '../errors/AppError';
-
 import { getCustomRepository, getRepository } from 'typeorm';
 import Transaction from '../models/Transaction';
 import TransactionsRepository from '../repositories/TransactionsRepository';
@@ -20,23 +18,22 @@ class CreateTransactionService {
     category,
   }: Request): Promise<Transaction> {
     const transactionRepository = getCustomRepository(TransactionsRepository);
+    const categoryRepository = getRepository(Category);
 
     const getBalance = await transactionRepository.getBalance();
 
     if (type === 'outcome' && value > getBalance.total)
       throw new AppError('This transaction was not authorized', 400);
 
+    const checkCategoryExists = await categoryRepository.findOne({
+      where: { title: category },
+    });
+
     const transaction = transactionRepository.create({
       title,
       value,
       type,
       category_id: '',
-    });
-
-    const categoryRepository = getRepository(Category);
-
-    const checkCategoryExists = await categoryRepository.findOne({
-      where: { title: category },
     });
 
     if (!checkCategoryExists) {
